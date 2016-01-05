@@ -2,6 +2,7 @@ package com.springapp.mvc.controller;
 
 
 
+import com.springapp.mvc.LoggingInRequired;
 import com.springapp.mvc.manager.HelloI;
 import com.springapp.mvc.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,11 @@ import java.util.Map;
 
 	@RequestMapping(value = "/sayhi",method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String,Object>  sayHi(HttpServletRequest httpServletRequest) {
+	public Map<String,Object>  sayHi(HttpServletRequest httpServletRequest,@LoggingInRequired String user) {
 		Map<String,Object> result =new HashMap<String,Object>();
 			helloI.sayHi("  what ever i 've done!");
 		result.put("say","hi");
+		result.put("user",user);
 		return result;
 	}
 

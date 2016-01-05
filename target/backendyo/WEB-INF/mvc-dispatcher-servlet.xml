@@ -8,7 +8,20 @@
 
     <context:component-scan base-package="com.springapp.mvc"/>
 
-    <mvc:annotation-driven />
+    <!--<mvc:annotation-driven />-->
+    <mvc:annotation-driven>
+            <mvc:argument-resolvers>
+                <bean class="com.springapp.mvc.LoggingChecked"></bean>
+            </mvc:argument-resolvers>
+
+    </mvc:annotation-driven>
+    <!--<annotation-driven>-->
+    <!--<argument-resolvers>-->
+        <!--<beans:bean class="com.springapp.mvc.LoggingChecked" />-->
+
+    <!--</argument-resolvers>-->
+    <!--</annotation-driven>-->
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
