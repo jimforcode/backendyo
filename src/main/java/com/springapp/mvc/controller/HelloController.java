@@ -1,53 +1,70 @@
 package com.springapp.mvc.controller;
 
 
-
+import com.springapp.mvc.AppConfig2;
+import com.springapp.mvc.DateEditor;
 import com.springapp.mvc.LoggingInRequired;
+import com.springapp.mvc.MyService;
 import com.springapp.mvc.manager.HelloI;
 import com.springapp.mvc.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
- public class HelloController {
+public class HelloController {
 
-	@Autowired
-	HelloService helloService;
+    @Autowired
+    HelloService helloService;
 
-	@Resource(name = "helloImpExtra")
-//	@Autowired
+//    	@Resource(name = "helloImpExtra")
 //	@Qualifier("helloImpExtra")
-	HelloI helloI;
-	@RequestMapping(method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String,Object>  printWelcome(HttpServletRequest httpServletRequest) {
-        Map<String,Object> result =new HashMap<String,Object>();
+    @Autowired
+    HelloI helloI;
 
- 		result.put("httpServletRequest.getRemoteHost()",httpServletRequest.getRemoteAddr()+"| "+helloService);
-		result.put("count ",httpServletRequest.getRemoteAddr()+"| "+helloService.say());
-		return result;
-	}
+    @Autowired
+    MyService myService;
+    @InitBinder
+    public void initBinder(WebDataBinder binder) throws Exception {
 
-	@RequestMapping(value = "/sayhi",method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String,Object>  sayHi(HttpServletRequest httpServletRequest,@LoggingInRequired String user) {
-		Map<String,Object> result =new HashMap<String,Object>();
-			helloI.sayHi("  what ever i 've done!");
-		result.put("say","hi");
-		result.put("user",user);
-		return result;
-	}
+        DateEditor dateEditor = new DateEditor();
+        binder.registerCustomEditor(Date.class, dateEditor);
+    }
+    @RequestMapping(value = "/date", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> printWelcome(@RequestParam("dataValue") Date dataValue) {
+        Map<String, Object> result = new HashMap<String, Object>();
 
+        result.put("dataValue", dataValue);
+
+        return result;
+    }
+
+    @RequestMapping(value = "/sayhi", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> sayHi(HttpServletRequest httpServletRequest, @LoggingInRequired String user) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("user", user);
+        myService.doWork();
+        helloI.sayHi("----------------  sayHi  ----------------------");
+        result.put("instance of helloI", helloI.toString());
+
+
+        myService.doWork();
+
+        return result;
+    }
 
 
 }

@@ -1,0 +1,22 @@
+//package com.springapp.mvc;
+//
+//import com.springapp.mvc.manager.HelloI;
+//import com.springapp.mvc.manager.HelloImpl;
+//import com.springapp.mvc.service.MyServiceImpl;
+//import com.springapp.mvc.service.MyServiceImpl2;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//
+///**
+// * Created by zj on 16/1/6.
+// */
+//@Configuration
+//public class AppConfig {
+//    @Bean
+//    public MyService myService123(){
+//        return  new MyServiceImpl2();
+//    }
+////
+//
+//
+//}

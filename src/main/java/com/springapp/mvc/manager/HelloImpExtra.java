@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by zj on 16/1/5.
  */
-@Component
+//@Component
 public class HelloImpExtra  implements  HelloI{
     @Override
     public void sayHi(String msg) {
