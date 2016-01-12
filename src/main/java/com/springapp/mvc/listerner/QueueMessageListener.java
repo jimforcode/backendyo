@@ -12,15 +12,24 @@ public class QueueMessageListener implements MessageListener {
     //当收到消息后，自动调用该方法
     @Override
     public void onMessage(Message message) {
-        
+        System.out.println(" consumer A :");
+
         TextMessage tm = (TextMessage) message;
         try {
-            System.out.println("QueueMessageListener监听到了文本消息：\t"
-                    + tm.getText());
-            //do something ...
+            System.out.println("you have message ："+ tm.getText());
         } catch (JMSException e) {
             e.printStackTrace();
         }
+
+        try {
+            if(message.getJMSReplyTo()!=null){
+                System.out.println(" it's is  from :");
+                            System.out.println(message.getJMSReplyTo());
+            }
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

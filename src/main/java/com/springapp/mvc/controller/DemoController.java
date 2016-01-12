@@ -35,8 +35,8 @@ public class DemoController {
     private ProducerService producer;
 
   //队列消息消费者
-    @Resource(name="consumerService")
-    private ConsumerService consumer;
+//    @Resource(name="consumerService")
+//    private ConsumerService consumer;
 
     @RequestMapping(value="/producer",method=RequestMethod.GET)
     public ModelAndView producer(){
@@ -57,22 +57,25 @@ public class DemoController {
     public ModelAndView producer(@RequestParam("message") String message) {
         System.out.println("------------send to jms");
         ModelAndView mv = new ModelAndView();
-        producer.sendMessage(demoQueueDestination, message);
+        for (int i = 0; i < 1000; i++) {
+            producer.sendMessage(demoQueueDestination, message+i);
+        }
+
         mv.setViewName("welcome");
         return mv;
     }
 
-    @RequestMapping(value="/receive",method=RequestMethod.GET)
-    public ModelAndView queue_receive() throws JMSException {
-        System.out.println("------------receive message");
-        ModelAndView mv = new ModelAndView();
-
-        TextMessage tm = consumer.receive(demoQueueDestination);
-        mv.addObject("textMessage", tm.getText());
-
-        mv.setViewName("queue_receive");
-        return mv;
-    }
+//    @RequestMapping(value="/receive",method=RequestMethod.GET)
+//    public ModelAndView queue_receive() throws JMSException {
+//        System.out.println("------------receive message");
+//        ModelAndView mv = new ModelAndView();
+//
+//        TextMessage tm = consumer.receive(demoQueueDestination);
+//        mv.addObject("textMessage", tm.getText());
+//
+//        mv.setViewName("queue_receive");
+//        return mv;
+//    }
 
     /*
      * ActiveMQ Manager Test
